@@ -1,0 +1,39 @@
+{% extends 'books/base.html' %}
+
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card shadow-sm p-4">
+        <h2>{{ book.title }}</h2>
+        <p><strong>Author:</strong> {{ book.author }}</p>
+        <p><strong>Genre:</strong> {{ book.genre }}</p>
+        <p><strong>Description:</strong> {{ book.description }}</p>
+        <p><strong>Price:</strong> ₹{{ book.price }}</p>
+        <p><strong>Stock:</strong> {{ book.stock }}</p>
+
+        {% if book.coverPage %}
+            <img src="{{ book.coverPage.url }}" class="img-fluid mt-3" style="max-width: 300px;" alt="{{ book.title }}">
+        {% endif %}
+
+        <div class="mt-4">
+            <a href="{% url 'book-list' %}" class="btn btn-secondary">Back to List</a>
+
+        <form method="post" action="{% url 'add-to-cart' book.id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input type="number" name="quantity" id="quantity" class="form-control"
+                min="1" max="{{ book.stock }}" value="1" required>
+        </div>
+        <button type="submit" class="btn btn-success mt-2">Add to Cart</button>
+        </form>
+
+
+             {% if user.is_admin_group_member %}
+            <a href="{% url 'book-edit' book.id %}" class="btn btn-primary">Edit</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

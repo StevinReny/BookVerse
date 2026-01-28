@@ -1,0 +1,8 @@
+{% extends 'books/base.html' %}
+{% block content %}
+  <div class="alert alert-success mt-4">
+    <h4>Order placed successfully!</h4>
+    <p>Thank you for your purchase.</p>
+    <a href="{% url 'book-list' %}" class="btn btn-primary">Continue Shopping</a>
+  </div>
+{% endblock %}
